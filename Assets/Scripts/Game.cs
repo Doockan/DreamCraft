@@ -1,6 +1,8 @@
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.InputService;
 using Assets.Scripts.Services.LoadSceneServices;
+using Assets.Scripts.Services.Player;
+using Assets.Scripts.Services.PrefabLoadService;
 
 public class Game
 {
@@ -19,7 +21,16 @@ public class Game
 
     private void RegisterServices()
     {
-        _services.RegisterSingle<ILoadGameSceneService>(new LoadGameSceneService(_sceneLoader));
+        _services.RegisterSingle<IPrefabLoader>(new PrefabLoaded());
+
+        _services.RegisterSingle<IPlayerSpawnService>(new PlayerSpawnService(
+            _services.Single<IPrefabLoader>()
+        ));
+
+        _services.RegisterSingle<ILoadGameSceneService>(new LoadGameSceneService(_sceneLoader,
+            _services.Single<IPlayerSpawnService>()
+        ));
+
         _services.RegisterSingle<IInputHandler>(new InputHandler());
     }
 }
