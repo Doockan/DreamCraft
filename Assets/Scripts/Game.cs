@@ -1,4 +1,5 @@
 using Assets.Scripts.Services;
+using Assets.Scripts.Services.InputService;
 using Assets.Scripts.Services.LoadSceneServices;
 
 public class Game
@@ -19,5 +20,6 @@ public class Game
     private void RegisterServices()
     {
         _services.RegisterSingle<ILoadGameSceneService>(new LoadGameSceneService(_sceneLoader));
+        _services.RegisterSingle<IInputHandler>(new InputHandler());
     }
 }
