@@ -4,33 +4,42 @@ using Assets.Scripts.Services.LoadSceneServices;
 using Assets.Scripts.Services.Player;
 using Assets.Scripts.Services.PrefabLoadService;
 
-public class Game
+namespace Assets.Scripts
 {
-    private readonly SceneLoader _sceneLoader;
-    private readonly AllServices _services;
-
-    public Game(SceneLoader sceneLoader, AllServices services)
+    public class Game
     {
-        _sceneLoader = sceneLoader;
-        _services = services;
+        private readonly SceneLoader _sceneLoader;
+        private readonly AllServices _services;
 
-        RegisterServices();
+        public Game(SceneLoader sceneLoader, AllServices services)
+        {
+            _sceneLoader = sceneLoader;
+            _services = services;
 
-        _services.Single<ILoadGameSceneService>().LoadLevel();
-    }
+            RegisterServices();
 
-    private void RegisterServices()
-    {
-        _services.RegisterSingle<IPrefabLoader>(new PrefabLoaded());
+            _services.Single<ILoadGameSceneService>().LoadLevel();
+        }
 
-        _services.RegisterSingle<IPlayerSpawnService>(new PlayerSpawnService(
-            _services.Single<IPrefabLoader>()
-        ));
+        private void RegisterServices()
+        {
+            _services.RegisterSingle<IPrefabLoader>(new PrefabLoaded());
 
-        _services.RegisterSingle<ILoadGameSceneService>(new LoadGameSceneService(_sceneLoader,
-            _services.Single<IPlayerSpawnService>()
-        ));
+            _services.RegisterSingle<IPlayerSpawnService>(new PlayerSpawnService(
+                _services.Single<IPrefabLoader>()
+            ));
 
-        _services.RegisterSingle<IInputHandler>(new InputHandler());
+            _services.RegisterSingle<ILoadGameSceneService>(new LoadGameSceneService(_sceneLoader,
+                _services.Single<IPlayerSpawnService>()
+            ));
+
+            _services.RegisterSingle<IPlayerHandler>(new PlayerHandler(
+                _services.Single<IPlayerSpawnService>()
+            ));
+
+            _services.RegisterSingle<IInputHandler>(new InputHandler(
+                _services.Single<IPlayerHandler>()
+            ));
+        }
     }
 }

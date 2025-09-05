@@ -1,12 +1,17 @@
+using System;
+using Assets.Scripts.Player;
 using UnityEngine;
 using Assets.Scripts.Services.PrefabLoadService;
+using Object = UnityEngine.Object;
 
 namespace Assets.Scripts.Services.Player
 {
     public class PlayerSpawnService : IPlayerSpawnService
     {
         private readonly IPrefabLoader _prefabLoader;
-        private GameObject _playerView;
+        private PlayerView _playerView;
+
+        public event Action<PlayerView> PlayerSpawned;
 
         public PlayerSpawnService(IPrefabLoader prefabLoader)
         {
@@ -15,9 +20,12 @@ namespace Assets.Scripts.Services.Player
 
         public async void Spawn()
         {
-            _playerView = await _prefabLoader.LoadPrefab("Player");
+            var playerPrefab = await _prefabLoader.LoadPrefab("Player");
 
-            GameObject.Instantiate(_playerView, Vector3.zero, Quaternion.identity);
+            var playerObject = Object.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+
+            _playerView = playerObject.GetComponent<PlayerView>();
+            PlayerSpawned?.Invoke(_playerView);
         }
     }
 }
