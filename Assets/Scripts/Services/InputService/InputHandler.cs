@@ -47,12 +47,18 @@ namespace Assets.Scripts.Services.InputService
 
         private void OnAttackStarted(CallbackContext context)
         {
-            Debug.Log("Started");
+            foreach (var weapon in _playerHandler.Player?.RaycastWeapons)
+            {
+                weapon.StartFiring();
+            }
         }
 
         private void OnAttackCanceled(CallbackContext context)
         {
-            Debug.Log("Canceled");
+            foreach (var weapon in _playerHandler.Player?.RaycastWeapons)
+            {
+                weapon.StopFiring();
+            }
         }
 
         public void Dispose()

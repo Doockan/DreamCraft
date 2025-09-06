@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11660e67f987fc34cb20c528f54d7a3d, type: 3}
+  m_Name: AK
+  m_EditorClassIdentifier: 
+  WeaponName: AK
+  WeaponSlot: 0
+  ClipSize: 30
+  FireRate: 10
+  BulletSpeed: 1000
+  BulletDrop: 0
+  Damage: 10
