@@ -226,7 +226,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -488,6 +488,7 @@ GameObject:
   - component: {fileID: 8861251138080035914}
   - component: {fileID: 215946376608770721}
   - component: {fileID: 8313120585561527474}
+  - component: {fileID: 5277401003870987244}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -527,9 +528,8 @@ MonoBehaviour:
   _firePoint: {fileID: 1309772356701107222}
   _movement: {fileID: 215946376608770721}
   _rotate: {fileID: 8313120585561527474}
-  RaycastWeapons:
-  - {fileID: 171617625503050104}
-  - {fileID: 4418889702625758049}
+  _activeWeapon: {fileID: 5277401003870987244}
+  _playerCamera: {fileID: 2122766902877590735}
 --- !u!114 &215946376608770721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,6 +557,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sensitivity: 1
   _upDownRange: 90
+--- !u!114 &5277401003870987244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6867049906425062272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19df782b932ea5469f60d9757969601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activeWeapon: {fileID: 171617625503050104}
 --- !u!1 &7887798780546456881
 GameObject:
   m_ObjectHideFlags: 0

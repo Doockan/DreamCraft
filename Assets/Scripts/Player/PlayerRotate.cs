@@ -19,21 +19,22 @@ namespace Assets.Scripts.Player
             Cursor.visible = false;
         }
 
-        private void FixedUpdate()
-        {
-            if (_lookInput == Vector2.zero) return;
-
-            var mousXRotation = _lookInput.x * _sensitivity;
-            transform.Rotate(0, mousXRotation, 0);
-
-            _verticalRotation -= _lookInput.y * _sensitivity;
-            _verticalRotation = Mathf.Clamp(_verticalRotation, -_upDownRange, _upDownRange);
-            _mainCamera.transform.localRotation = Quaternion.Euler(_verticalRotation, 0, 0);
-        }
-
         public void OnMousePosition(Vector2 value)
         {
             _lookInput = value;
+        }
+
+        private void Update()
+        {
+            float targetX = _lookInput.x * _sensitivity;
+            float targetY = _lookInput.y * _sensitivity;
+
+            transform.Rotate(0f, targetX * Time.deltaTime * 60f, 0f);
+            _verticalRotation -= targetY * Time.deltaTime * 60f;
+            _verticalRotation = Mathf.Clamp(_verticalRotation, -_upDownRange, _upDownRange);
+            _mainCamera.transform.localRotation = Quaternion.Euler(_verticalRotation, 0f, 0f);
+
+            _lookInput = Vector2.zero;
         }
     }
 }

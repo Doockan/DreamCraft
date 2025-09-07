@@ -14,5 +14,10 @@ namespace Assets.Scripts
 
             DontDestroyOnLoad(this);
         }
+
+        private void Update()
+        {
+            _game.Update(Time.deltaTime);
+        }
     }
 }

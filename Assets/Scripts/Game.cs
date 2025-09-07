@@ -1,8 +1,11 @@
+using UnityEngine;
+using System.Threading.Tasks;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.InputService;
 using Assets.Scripts.Services.LoadSceneServices;
 using Assets.Scripts.Services.Player;
 using Assets.Scripts.Services.PrefabLoadService;
+using Assets.Scripts.Services.SimpleBot;
 
 namespace Assets.Scripts
 {
@@ -16,12 +19,15 @@ namespace Assets.Scripts
             _sceneLoader = sceneLoader;
             _services = services;
 
-            RegisterServices();
-
-            _services.Single<ILoadGameSceneService>().LoadLevel();
+            RegisterServices().ConfigureAwait(false);
         }
 
-        private void RegisterServices()
+        public void Update(float deltaTime)
+        {
+            _services.TickAll(deltaTime);
+        }
+
+        private async Task RegisterServices()
         {
             _services.RegisterSingle<IPrefabLoader>(new PrefabLoaded());
 
@@ -40,6 +46,21 @@ namespace Assets.Scripts
             _services.RegisterSingle<IInputHandler>(new InputHandler(
                 _services.Single<IPlayerHandler>()
             ));
+
+            _services.RegisterSingle<IBotSpawner>(new BotSpawner(
+                _services.Single<IPrefabLoader>(),
+                _services.Single<IPlayerHandler>(),
+                "Bot",
+                spawnInterval: 3f,
+                spawnRadius: 20f,
+                minDistanceFromCamera: 10f,
+                maxBots: 10
+            ));
+
+
+            await _services.Single<IBotSpawner>().Initialize();
+
+            _services.Single<ILoadGameSceneService>().LoadLevel();
         }
     }
 }

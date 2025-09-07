@@ -18,4 +18,4 @@ MonoBehaviour:
   FireRate: 10
   BulletSpeed: 1000
   BulletDrop: 0
-  Damage: 10
+  Damage: 50

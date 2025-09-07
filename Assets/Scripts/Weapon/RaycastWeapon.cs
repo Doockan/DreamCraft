@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assets.Scripts.Services.SimpleBot;
 using Assets.Scripts.Weapon;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class RaycastWeapon : MonoBehaviour
     private Ray _ray;
     private RaycastHit _hitInfo;
     public bool IsFiring { get; private set; }
+    public WeaponData Data => _weaponData;
 
     private void LateUpdate()
     {
@@ -107,11 +109,10 @@ public class RaycastWeapon : MonoBehaviour
     {
         bullet.Time = _maxLifetime;
 
-        Debug.Log($"HIT from {_weaponData.WeaponName} = {hitInfo.collider.name}");
-        // var hitBox = hitInfo.collider.GetComponent<HitBox>();
-        // if (hitBox)
-        // {
-        //     hitBox.OnRaycastHit(this, _ray.direction);
-        // }
+        var hitBox = hitInfo.collider.GetComponent<Health>();
+        if (hitBox)
+        {
+            hitBox.TakeDamage(_weaponData.Damage, gameObject);
+        }
     }
 }

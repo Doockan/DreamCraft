@@ -53,6 +53,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PrimaryWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""b043734a-787c-4e96-904d-e842576643dc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Secondary"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d44426c-e60f-4159-b1c4-8fdda5947c7d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -187,6 +205,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""816a9508-9a43-4c51-914b-f9cc15ab92b7"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrimaryWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7e436df-2f86-43f5-8e95-1689043e079f"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -215,6 +255,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
+        m_Player_PrimaryWeapon = m_Player.FindAction("PrimaryWeapon", throwIfNotFound: true);
+        m_Player_Secondary = m_Player.FindAction("Secondary", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -284,6 +326,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Mouse;
+    private readonly InputAction m_Player_PrimaryWeapon;
+    private readonly InputAction m_Player_Secondary;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -291,6 +335,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Mouse => m_Wrapper.m_Player_Mouse;
+        public InputAction @PrimaryWeapon => m_Wrapper.m_Player_PrimaryWeapon;
+        public InputAction @Secondary => m_Wrapper.m_Player_Secondary;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -309,6 +355,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Mouse.started += instance.OnMouse;
             @Mouse.performed += instance.OnMouse;
             @Mouse.canceled += instance.OnMouse;
+            @PrimaryWeapon.started += instance.OnPrimaryWeapon;
+            @PrimaryWeapon.performed += instance.OnPrimaryWeapon;
+            @PrimaryWeapon.canceled += instance.OnPrimaryWeapon;
+            @Secondary.started += instance.OnSecondary;
+            @Secondary.performed += instance.OnSecondary;
+            @Secondary.canceled += instance.OnSecondary;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -322,6 +374,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Mouse.started -= instance.OnMouse;
             @Mouse.performed -= instance.OnMouse;
             @Mouse.canceled -= instance.OnMouse;
+            @PrimaryWeapon.started -= instance.OnPrimaryWeapon;
+            @PrimaryWeapon.performed -= instance.OnPrimaryWeapon;
+            @PrimaryWeapon.canceled -= instance.OnPrimaryWeapon;
+            @Secondary.started -= instance.OnSecondary;
+            @Secondary.performed -= instance.OnSecondary;
+            @Secondary.canceled -= instance.OnSecondary;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -353,5 +411,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
+        void OnPrimaryWeapon(InputAction.CallbackContext context);
+        void OnSecondary(InputAction.CallbackContext context);
     }
 }

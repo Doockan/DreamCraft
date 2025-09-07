@@ -23,6 +23,9 @@ namespace Assets.Scripts.Services.InputService
             _inputActions.Player.Mouse.canceled += MousPositionCanceled;
             _inputActions.Player.Attack.started += OnAttackStarted;
             _inputActions.Player.Attack.canceled += OnAttackCanceled;
+
+            _inputActions.Player.PrimaryWeapon.performed += OnPrimaryWeapon;
+            _inputActions.Player.Secondary.performed += OnSecondaryWeapon;
         }
 
         private void OnMove(CallbackContext context)
@@ -47,18 +50,22 @@ namespace Assets.Scripts.Services.InputService
 
         private void OnAttackStarted(CallbackContext context)
         {
-            foreach (var weapon in _playerHandler.Player?.RaycastWeapons)
-            {
-                weapon.StartFiring();
-            }
+            _playerHandler.Player?.ActiveWeapon.Fire();
         }
 
         private void OnAttackCanceled(CallbackContext context)
         {
-            foreach (var weapon in _playerHandler.Player?.RaycastWeapons)
-            {
-                weapon.StopFiring();
-            }
+            _playerHandler.Player?.ActiveWeapon.StopFire();
+        }
+
+        private void OnPrimaryWeapon(CallbackContext context)
+        {
+            _playerHandler.Player?.ActiveWeapon.SwitchWeapon(WeaponSlot.Primary);
+        }
+
+        private void OnSecondaryWeapon(CallbackContext context)
+        {
+            _playerHandler.Player?.ActiveWeapon.SwitchWeapon(WeaponSlot.Secondary);
         }
 
         public void Dispose()
