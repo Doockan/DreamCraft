@@ -15,7 +15,10 @@ MonoBehaviour:
   WeaponName: BK
   WeaponSlot: 1
   ClipSize: 30
-  FireRate: 10
+  FireRate: 1
   BulletSpeed: 1000
   BulletDrop: 0
-  Damage: 50
+  Damage: 8
+  FireMode: 3
+  Pellets: 6
+  SpreadAngle: 5
