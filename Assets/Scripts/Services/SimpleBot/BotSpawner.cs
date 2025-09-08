@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+using UnityEngine;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Assets.Scripts.Services.Player;
 using Assets.Scripts.Services.PrefabLoadService;
-using UnityEngine;
 
 namespace Assets.Scripts.Services.SimpleBot
 {
@@ -78,7 +78,11 @@ namespace Assets.Scripts.Services.SimpleBot
 
             _activeBots.Add(botObj);
 
-            botObj.GetComponent<Health>().OnDestroyed += () => { _activeBots.Remove(botObj); };
+            botObj.GetComponent<Health>().OnDie += () =>
+            {
+                _activeBots.Remove(botObj);
+                botAI.Destroy();
+            };
         }
 
         private Vector3 GetSpawnPosition()

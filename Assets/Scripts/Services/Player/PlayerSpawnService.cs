@@ -1,6 +1,6 @@
 using System;
-using Assets.Scripts.Player;
 using UnityEngine;
+using Assets.Scripts.Player;
 using Assets.Scripts.Services.PrefabLoadService;
 using Object = UnityEngine.Object;
 

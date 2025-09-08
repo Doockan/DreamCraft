@@ -6,7 +6,7 @@ namespace Assets.Scripts.Services.SimpleBot
     [RequireComponent(typeof(Collider))]
     public class Health : MonoBehaviour
     {
-        public event Action OnDestroyed;
+        public event Action OnDie;
 
         [SerializeField] private float _maxHealth = 100f;
 
@@ -34,8 +34,7 @@ namespace Assets.Scripts.Services.SimpleBot
 
         private void Die()
         {
-            OnDestroyed?.Invoke();
-            Destroy(gameObject);
+            OnDie?.Invoke();
         }
     }
 }

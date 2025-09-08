@@ -7,6 +7,7 @@ namespace Assets.Scripts.Services.Player
     {
         private readonly IPlayerSpawnService _playerSpawnService;
         public PlayerView Player { get; private set; }
+        public event Action OnSpawn;
 
         public PlayerHandler(IPlayerSpawnService playerSpawnService)
         {
@@ -17,6 +18,7 @@ namespace Assets.Scripts.Services.Player
         private void OnSpawned(PlayerView view)
         {
             Player = view;
+            OnSpawn?.Invoke();
         }
 
         public void Dispose()

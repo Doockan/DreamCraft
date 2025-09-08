@@ -1,11 +1,10 @@
-using UnityEngine;
 using System.Threading.Tasks;
 using Assets.Scripts.Services;
+using Assets.Scripts.Services.Player;
+using Assets.Scripts.Services.SimpleBot;
 using Assets.Scripts.Services.InputService;
 using Assets.Scripts.Services.LoadSceneServices;
-using Assets.Scripts.Services.Player;
 using Assets.Scripts.Services.PrefabLoadService;
-using Assets.Scripts.Services.SimpleBot;
 
 namespace Assets.Scripts
 {
@@ -41,6 +40,10 @@ namespace Assets.Scripts
 
             _services.RegisterSingle<IPlayerHandler>(new PlayerHandler(
                 _services.Single<IPlayerSpawnService>()
+            ));
+
+            _services.RegisterSingle<IPlayerDieHandler>(new PlayerDieHandler(
+                _services.Single<IPlayerHandler>()
             ));
 
             _services.RegisterSingle<IInputHandler>(new InputHandler(
