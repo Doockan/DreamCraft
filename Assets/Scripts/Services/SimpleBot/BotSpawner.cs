@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Assets.Scripts.Data;
 using Assets.Scripts.Services.Player;
 using Assets.Scripts.Services.PrefabLoadService;
 
@@ -10,10 +11,7 @@ namespace Assets.Scripts.Services.SimpleBot
     {
         private readonly IPrefabLoader _prefabLoader;
         private readonly IPlayerHandler _playerHandler;
-        private readonly Camera _camera;
-
         private readonly List<GameObject> _activeBots = new List<GameObject>();
-        private readonly Transform _botsParent;
 
         private readonly string _botPrefabName;
         private readonly float _spawnInterval;
@@ -25,24 +23,17 @@ namespace Assets.Scripts.Services.SimpleBot
         private float _timer;
 
         public BotSpawner(
-            IPrefabLoader prefabLoader,
-            IPlayerHandler playerHandler,
-            string botPrefabName,
-            float spawnInterval = 3f,
-            float spawnRadius = 20f,
-            float minDistanceFromCamera = 10f,
-            int maxBots = 10)
+            IPrefabLoader prefabLoader, IPlayerHandler playerHandler, IStaticDataService staticData)
         {
             _prefabLoader = prefabLoader;
             _playerHandler = playerHandler;
-            _botPrefabName = botPrefabName;
-            _spawnInterval = spawnInterval;
-            _spawnRadius = spawnRadius;
-            _minDistanceFromCamera = minDistanceFromCamera;
-            _maxBots = maxBots;
+            _botPrefabName = staticData.Bot().BotPrefabName;
+            _spawnInterval = staticData.Bot().SpawnInterval;
+            _spawnRadius = staticData.Bot().SpawnRadius;
+            _minDistanceFromCamera = staticData.Bot().MinDistanceFromCamera;
+            _maxBots = staticData.Bot().MaxBots;
         }
 
-        public Transform BotsParent => _botsParent;
         public int ActiveBotCount => _activeBots.Count;
 
         public async Task Initialize()

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Assets.Scripts.Data;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Player;
 using Assets.Scripts.Services.SimpleBot;
@@ -28,6 +29,8 @@ namespace Assets.Scripts
 
         private async Task RegisterServices()
         {
+            await RegisterStaticData();
+
             _services.RegisterSingle<IPrefabLoader>(new PrefabLoaded());
 
             _services.RegisterSingle<IPlayerSpawnService>(new PlayerSpawnService(
@@ -53,17 +56,20 @@ namespace Assets.Scripts
             _services.RegisterSingle<IBotSpawner>(new BotSpawner(
                 _services.Single<IPrefabLoader>(),
                 _services.Single<IPlayerHandler>(),
-                "Bot",
-                spawnInterval: 3f,
-                spawnRadius: 20f,
-                minDistanceFromCamera: 10f,
-                maxBots: 10
+                _services.Single<IStaticDataService>()
             ));
 
 
             await _services.Single<IBotSpawner>().Initialize();
 
             _services.Single<ILoadGameSceneService>().LoadLevel();
+        }
+
+        private async Task RegisterStaticData()
+        {
+            var staticData = new StaticDataService();
+            await staticData.LoadData();
+            _services.RegisterSingle<IStaticDataService>(staticData);
         }
     }
 }
